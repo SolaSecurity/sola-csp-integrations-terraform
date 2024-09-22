@@ -6,7 +6,7 @@
 _(`role_name` is optional)_
 ```hcl-terraform
 module "sola-aws-integration" {
-  source               = "github.com/Sola-Security/sola-cps-integrations-terraform/aws"
+  source               = "github.com/SolaSecurity/sola-cps-integrations-terraform/aws"
   role_name            = "ROLE_NAME"
   role_external_id     = "EXTERNAL_ID"
   sola_organization_id = "SOLA_AWS_ACCOUNT_ID"
@@ -23,7 +23,7 @@ output "role_arn" {
 _(`service_account_name` is optional)_
 ```hcl-terraform
 module "sola-gcp-integration" {
-  source     = "github.com/Sola-Security/sola-cps-integrations-terraform/gcp"
+  source     = "github.com/SolaSecurity/sola-cps-integrations-terraform/gcp"
   service_account_name = "SERVICE_ACCOUNT_NAME"
   project_id           = "PROJECT_ID"
 }
@@ -49,7 +49,7 @@ resource "null_resource" "save_key" {
 _(`app_name` is optional)_
 ```hcl-terraform
 module "sola-azure-integration" {
-  source          = "github.com/Sola-Security/sola-cps-integrations-terraform/azure"
+  source          = "github.com/SolaSecurity/sola-cps-integrations-terraform/azure"
   app_name        = "APPLICATION_NAME"
   subscription_id = "SUBSCRIPTION_ID"
 }
