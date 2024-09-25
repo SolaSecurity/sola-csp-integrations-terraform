@@ -4,7 +4,8 @@ locals {
   account_id = data.aws_caller_identity.current.account_id
   allowed_policies = [
     "ReadOnlyAccess",
-    "SecurityAudit"
+    "SecurityAudit",
+    "AWSSSOReadOnly"
   ]
 }
 
@@ -25,6 +26,33 @@ resource "aws_iam_policy" "sola_policy_deny_list" {
           "payments:*"
         ],
         "Effect" : "Deny",
+        "Resource" : "*"
+      },
+    ]
+  })
+  tags = var.tags
+}
+
+resource "aws_iam_policy" "sola_policy_allow_list" {
+  name        = "SolaPolicyAllowList"
+  path        = "/"
+  description = "Sola's IAM policy allow list"
+
+  policy = jsonencode({
+    "Version" : "2012-10-17",
+    "Statement" : [
+      {
+        "Action" : [
+          "kms:Get*",
+          "kms:List*",
+          "kms:Describe*",
+          "ecs:Get*",
+          "ecs:List*",
+          "ecs:Describe*",
+          "organizations:List*",
+          "organizations:Describe*"
+        ],
+        "Effect" : "Allow",
         "Resource" : "*"
       },
     ]
@@ -59,9 +87,13 @@ resource "aws_iam_role_policy_attachment" "sola_policy_deny_list" {
   policy_arn = aws_iam_policy.sola_policy_deny_list.arn
 }
 
-resource "aws_iam_role_policy_attachment" "sola_security_audit" {
+resource "aws_iam_role_policy_attachment" "sola_policy_allow_list" {
+  role       = aws_iam_role.sola_access_role.name
+  policy_arn = aws_iam_policy.sola_policy_allow_list.arn
+}
+
+resource "aws_iam_role_policy_attachment" "sola_allowed_policies" {
   for_each   = toset(local.allowed_policies)
   role       = aws_iam_role.sola_access_role.name
   policy_arn = "arn:aws:iam::aws:policy/${each.value}"
-  depends_on = [aws_iam_role_policy_attachment.sola_policy_deny_list]
 }

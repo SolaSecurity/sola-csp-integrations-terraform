@@ -5,7 +5,8 @@ data "google_project" "current" {
 locals {
   allowed_policies = [
     "iam.securityReviewer",
-    "viewer"
+    "viewer",
+    "cloudasset.viewer"
   ]
   services_list = [
     "admin",
