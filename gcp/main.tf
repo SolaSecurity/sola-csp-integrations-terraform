@@ -43,8 +43,16 @@ locals {
   ]
 }
 
+resource "random_string" "sola_service_account_postfix" {
+  length  = 4
+  special = false
+  upper   = false
+  lower   = true
+  numeric = true
+}
+
 resource "google_service_account" "sola_service_account" {
-  account_id   = var.service_account_name
+  account_id   = "${var.service_account_name}-${random_string.sola_service_account_postfix.result}"
   display_name = "Sola's ReadOnly Integration for ${data.google_project.current.name}"
   project      = data.google_project.current.project_id
 

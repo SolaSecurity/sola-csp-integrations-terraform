@@ -14,8 +14,16 @@ data "azuread_service_principal" "msgraph" {
   client_id = data.azuread_application_published_app_ids.well_known.result["MicrosoftGraph"]
 }
 
+resource "random_string" "sola_app_postfix" {
+  length  = 4
+  special = false
+  upper   = false
+  lower   = true
+  numeric = true
+}
+
 resource "azuread_application_registration" "sola_app" {
-  display_name = var.app_name
+  display_name = "${var.app_name}-${random_string.sola_app_postfix.result}"
 }
 
 resource "azuread_service_principal" "sola_sp" {

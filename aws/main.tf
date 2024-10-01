@@ -60,8 +60,16 @@ resource "aws_iam_policy" "sola_policy_allow_list" {
   tags = var.tags
 }
 
+resource "random_string" "sola_access_role_postfix" {
+  length  = 4
+  special = false
+  upper   = false
+  lower   = true
+  numeric = true
+}
+
 resource "aws_iam_role" "sola_access_role" {
-  name = var.role_name
+  name = "${var.role_name}-${random_string.sola_access_role_postfix.result}"
   assume_role_policy = jsonencode({
     "Version" : "2012-10-17",
     "Statement" : [
