@@ -1,7 +1,7 @@
 output "credentials" {
   value = {
     "Tenant ID" : data.azuread_client_config.current.tenant_id,
-    "Client ID" : data.azuread_client_config.current.client_id,
+    "Client ID" : azuread_service_principal.sola_sp.client_id,
     "Client Secret" : azuread_application_password.sola_app_password.value,
   }
   sensitive = true

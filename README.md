@@ -82,9 +82,6 @@ _(`app_name` is optional)_
 ```hcl-terraform
 module "sola-ms-entra-id-integration" {
   source = "github.com/SolaSecurity/sola-csp-integrations-terraform/entra_id"
-
-  tenant_id = "TENANT_ID"
-  app_name  = "APPLICATION_NAME"
 }
 
 output "credentials" {
@@ -98,14 +95,12 @@ output "grant_admin_consent_url" {
 }
 
 resource "null_resource" "print_credentials" {
-  provisioner "local-exec" {
-    command = <<EOT
-    terraform output -json credentials > credentials.json
-    cat credentials.json | sed -E 's/[{"}]//g; s/,/\n/g; s/:/: /'
-    echo "\nMake sure you granted admin consent:\n$(terraform output -raw grant_admin_consent_url)"
-    EOT
+  triggers = {
+    always_run = timestamp()
   }
-
+  provisioner "local-exec" {
+    command = "terraform output -json credentials > credentials.json && cat credentials.json | sed -E 's/[{\"}]//g; s/,/\\n/g; s/:/: /'"
+  }
   depends_on = [module.sola-ms-entra-id-integration]
 }
 ```
