@@ -20,6 +20,18 @@ locals {
   ]
   allowed_custom_policies = [
     "ecs:Get*",
+    "kms:ListKeyRotations",
+    "kms:DescribeKey",
+    "kms:GetKeyPolicy",
+    "kms:GetKeyRotationStatus",
+    "kms:ListAliases",
+    "kms:ListKeys",
+    "kms:ListResourceTags",
+    "quicksight:List*",
+    "quicksight:Describe*",
+    "resource-explorer-2:List*",
+    "resource-explorer-2:Get*",
+    "resource-explorer-2:Describe*",
   ]
 }
 
