@@ -33,13 +33,21 @@ resource "azuread_application_api_access" "graph_api_access" {
   api_client_id  = data.azuread_application_published_app_ids.well_known.result["MicrosoftGraph"]
 
   role_ids = [
+    data.azuread_service_principal.msgraph.app_role_ids["AgentIdentity.Read.All"],
+    data.azuread_service_principal.msgraph.app_role_ids["AgentIdentityBlueprint.Read.All"],
     data.azuread_service_principal.msgraph.app_role_ids["Application.Read.All"],
     data.azuread_service_principal.msgraph.app_role_ids["AuditLog.Read.All"],
     data.azuread_service_principal.msgraph.app_role_ids["Directory.Read.All"],
     data.azuread_service_principal.msgraph.app_role_ids["Domain.Read.All"],
+    data.azuread_service_principal.msgraph.app_role_ids["EntitlementManagement.Read.All"],
     data.azuread_service_principal.msgraph.app_role_ids["Group.Read.All"],
     data.azuread_service_principal.msgraph.app_role_ids["IdentityProvider.Read.All"],
+    data.azuread_service_principal.msgraph.app_role_ids["IdentityRiskEvent.Read.All"],
+    data.azuread_service_principal.msgraph.app_role_ids["IdentityRiskyAgent.Read.All"],
+    data.azuread_service_principal.msgraph.app_role_ids["LifecycleWorkflows.Read.All"],
     data.azuread_service_principal.msgraph.app_role_ids["Policy.Read.All"],
+    data.azuread_service_principal.msgraph.app_role_ids["RoleManagement.Read.All"],
+    data.azuread_service_principal.msgraph.app_role_ids["RoleManagementPolicy.Read.Directory"],
     data.azuread_service_principal.msgraph.app_role_ids["User.Read.All"]
   ]
 }
